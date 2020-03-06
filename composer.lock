@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1aebf5e69a8890441692da67e2122978",
+    "content-hash": "6558f74828bca9ebecac73d90cea4b1a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -730,49 +730,6 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
-        },
-        {
-            "name": "krishn/fst2sms",
-            "version": "v3.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/patelkrishn/laravel-fst2sms.git",
-                "reference": "f55283542d05bee900b47db594b294cf08a39c32"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/patelkrishn/laravel-fst2sms/zipball/f55283542d05bee900b47db594b294cf08a39c32",
-                "reference": "f55283542d05bee900b47db594b294cf08a39c32",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Krishn\\Fst2Sms\\Fst2SmsServiceProvider"
-                    ],
-                    "aliases": {
-                        "Fst2Sms": "Krishn\\Fst2Sms\\Facades\\Fst2SmsFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Krishn\\Fst2Sms\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Krishn Patel",
-                    "email": "patelkrishn00@gmail.com"
-                }
-            ],
-            "description": "This packages is use for send sms using Fast2Sms service.",
-            "time": "2020-02-25T06:34:46+00:00"
         },
         {
             "name": "laravel/framework",
