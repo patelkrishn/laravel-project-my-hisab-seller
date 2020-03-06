@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    E-hisab
+                    E-Hisab
                 </div>
 
                 <div class="links">
