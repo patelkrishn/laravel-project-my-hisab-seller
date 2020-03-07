@@ -67,7 +67,7 @@ class LoginController extends Controller
         $response->successful();
 
         // Determine if the response has a 400 level status code...
-        dd($response->clientError());
+        $response->clientError();
         
         // Determine if the response has a 500 level status code...
         dd($response->serverError());
