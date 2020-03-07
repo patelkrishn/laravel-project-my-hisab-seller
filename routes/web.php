@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    echo Fst2Sms::getWalletBalance();
+    return view('welcome');
 });
+
+Route::resource('/user','UserController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
