@@ -70,15 +70,11 @@ class LoginController extends Controller
         $response->clientError();
         
         // Determine if the response has a 500 level status code...
-        dd($response->serverError());
-
+        $response->serverError();
         $token=json_decode($response);
         Cookie::queue('access_token', $token->access_token, $token->expires_in);
         
-        // echo $token->access_token;
-        if (Auth::once($credentials)) {
-            return redirect($this->redirectTo);
-        }
+        return redirect($this->redirectTo);
 
         
     }
