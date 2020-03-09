@@ -64,18 +64,39 @@ class LoginController extends Controller
             "email" => $request->email,
             "password" =>  $request->password,
         ]);
-        $response->successful();
+        if ($response->successful()) {
+            $token=json_decode($response);
+            Cookie::queue('access_token', $token->access_token, $token->expires_in);
+            
+            return redirect($this->redirectTo);
+        }elseif ($response->clientError()) {
+            echo $response;
+            return redirect()->back()->with('error','Login Credentials Incorect!');
+        }elseif ($response->serverError()) {
+            echo $response;
+        }
 
-        // Determine if the response has a 400 level status code...
-        $response->clientError();
         
-        // Determine if the response has a 500 level status code...
-        $response->serverError();
-        $token=json_decode($response);
-        Cookie::queue('access_token', $token->access_token, $token->expires_in);
-        
-        return redirect($this->redirectTo);
-
+    }
+    public function logoutApi(){
+        $response =Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer '.Cookie::get('access_token'),
+            // 'Authorization' => 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6NTc1OFwvYXBpXC9sb2dpbiIsImlhdCI6MTU4MzY3ODE0OCwiZXhwIjoxNTgzNjc4NzQ4LCJuYmYiOjE1ODM2NzgxNDgsImp0aSI6ImJMRmFoa0d5cFVZeTFGWUMiLCJzdWIiOjQsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.volUpn9DmbW3BjSl09bbvPjG7lcYjWXqnWL8zyh29oc',
+        ])->post(env('API_URL')."/logout", [
+            
+        ]);
+        if ($response->successful()) {
+            $token=json_decode($response);
+            Cookie::queue('access_token', '', -1);
+            return redirect('/');
+        }elseif ($response->clientError()) {
+            echo $response;
+            return redirect()->back()->with('error','Login Credentials Incorect!');
+        }elseif ($response->serverError()) {
+            echo $response;
+        }
         
     }
 }

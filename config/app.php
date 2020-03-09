@@ -175,6 +175,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Krishn\AuthApi\AuthApiServiceProvider::class,
 
     ],
 
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Fst2Sms' => Krishn\Fst2Sms\Facades\Fst2SmsFacade::class,
+        'AuthApi'=> Krishn\AuthApi\Facades\AuthApiFacade::class,
 
     ],
 

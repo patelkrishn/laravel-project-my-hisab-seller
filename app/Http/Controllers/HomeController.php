@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cookie;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -12,15 +13,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        // dd($request);
-        // $this->middleware('auth');
-        if ($request->cookie('access_token')) {
-            return redirect('/login');
-        }else {
-            return redirect('/fdbfdbd');
-        }
+        $this->middleware('apiToken');
+        
     }
 
     /**

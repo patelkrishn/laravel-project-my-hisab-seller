@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Illuminate\Http\Request;
+use Cookie;
+use Http;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,11 +54,40 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
         ]);
     }
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+        $response =Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json'
+        ])->post(env('API_URL')."/register", [
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'mobile'=>$request->mobile,
+            'password'=>$request->password,
+        ]);
+        if ($response->successful()) {
+            $token=json_decode($response);
+            Cookie::queue('access_token', $token->access_token, $token->expires_in);
+            
+            return redirect($this->redirectTo);
+        }elseif ($response->clientError()) {
+            echo $response;
+        }elseif ($response->serverError()) {
+            echo $response;
+        }
+        
 
+        
+    }
     /**
      * Create a new user instance after a valid registration.
      *

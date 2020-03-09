@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef1be674ab7f84ee8f31a2620178c5ca",
+    "content-hash": "d32e214df59917a187ab707c5f8e25ae",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -730,6 +730,49 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "krishn/auth-api",
+            "version": "v2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/patelkrishn/laravel-AuthApi.git",
+                "reference": "422c56b08f2be015d743e4125b4c387f499a0f13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/patelkrishn/laravel-AuthApi/zipball/422c56b08f2be015d743e4125b4c387f499a0f13",
+                "reference": "422c56b08f2be015d743e4125b4c387f499a0f13",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Krishn\\AuthApi\\AuthApiServiceProvider"
+                    ],
+                    "aliases": {
+                        "AuthApi": "Krishn\\AuthApi\\Facades\\AuthApiFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Krishn\\AuthApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Krishn Patel",
+                    "email": "patelkrishn00@gmail.com"
+                }
+            ],
+            "description": "This package is providing facade which give logged user in data using API login.",
+            "time": "2020-03-08T14:37:19+00:00"
         },
         {
             "name": "krishn/fst2sms",

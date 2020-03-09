@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// use Krishn\AuthApi\Providers\AuthApi;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    
+    return redirect('/home');
 });
 
 Route::resource('/user','UserController');
 
 Auth::routes();
+Route::get('/logout','Auth\LoginController@logoutApi');
 
 Route::get('/home', 'HomeController@index')->name('home');
