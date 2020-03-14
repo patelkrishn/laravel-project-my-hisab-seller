@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Krishn\Fst2Sms\Fst2SmsServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -230,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Fst2Sms' => Krishn\Fst2Sms\Facades\Fst2SmsFacade::class,
         'AuthApi'=> Krishn\AuthApi\Facades\AuthApiFacade::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     ],
 

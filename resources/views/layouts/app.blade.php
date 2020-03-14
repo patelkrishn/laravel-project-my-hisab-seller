@@ -64,27 +64,28 @@ to get the desired effect
     <!-- Right navbar links -->
         <ul class="navbar-nav ml-auto">
             <!-- Notifications Dropdown Menu -->
-            {{-- <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                     <i class="far fa-bell"></i>
-                    @if ($notificationsCount!=NULL)
-                        <span class="badge badge-warning navbar-badge">{{$notificationsCount}}</span>
-                    @endif
+                    {{-- @if ($notificationsCount!=NULL) --}}
+                        <span class="badge badge-warning navbar-badge">5</span>
+                    {{-- @endif --}}
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header">You have {{$notificationsCount}} Notifications</span>
+                    <span class="dropdown-item dropdown-header">You have 5 Notifications</span>
                     <div class="dropdown-divider"></div>
-                    @foreach ($notifications as $item)
-                        <a href="#" class="dropdown-item">
-                            {{$item->content}}
-                        </a>
+                    {{-- @foreach ($notifications as $item) --}}
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-envelope mr-2"></i> 5 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                              </a>
                         <div class="dropdown-divider"></div>
-                    @endforeach
+                    {{-- @endforeach --}}
 
 
                     <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                 </div>
-            </li> --}}
+            </li>
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                     <img src="{{asset('/dist/img/user2-160x160.jpg')}}" class="user-image img-circle elevation-2" alt="User Image">
@@ -155,15 +156,9 @@ to get the desired effect
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/slots" class="nav-link {{ Request::path()=='slots' ? 'active' : '' }}">
+                                    <a href="/products" class="nav-link {{ Request::path()=='products' ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>All Products</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{asset('slots/add')}}" class="nav-link {{ Request::path()=='slots/add' ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Add Product</p>
                                     </a>
                                 </li>
                             </ul>
@@ -174,7 +169,7 @@ to get the desired effect
                         @else
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link">
-                                @endif
+                        @endif
                                     <i class="nav-icon fas fa-copy"></i>
                                     <p>
                                         Users

@@ -22,6 +22,9 @@ Route::get('/', function () {
 Route::resource('/user','UserController');
 
 Auth::routes();
+
 Route::get('/logout','Auth\LoginController@logoutApi');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/products', 'ProductController');
