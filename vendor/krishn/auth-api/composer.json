@@ -1,0 +1,29 @@
+{
+    "name": "krishn/auth-api",
+    "description": "This package is providing facade which give logged user in data using API login.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Krishn Patel",
+            "email": "patelkrishn00@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Krishn\\AuthApi\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Krishn\\AuthApi\\AuthApiServiceProvider"
+            ],
+            "aliases": {
+                "AuthApi": "Krishn\\AuthApi\\Facades\\AuthApiFacade"
+            }
+        }
+    }
+}

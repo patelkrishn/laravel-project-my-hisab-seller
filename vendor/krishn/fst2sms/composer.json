@@ -1,0 +1,30 @@
+{
+    "name": "krishn/fst2sms",
+    "description": "This packages is use for send sms using Fast2Sms service.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Krishn Patel",
+            "email": "patelkrishn00@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Krishn\\Fst2Sms\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Krishn\\Fst2Sms\\Fst2SmsServiceProvider"
+            ],
+            "aliases": {
+                "Fst2Sms": "Krishn\\Fst2Sms\\Facades\\Fst2SmsFacade"
+            }
+        }
+    }
+}
+
