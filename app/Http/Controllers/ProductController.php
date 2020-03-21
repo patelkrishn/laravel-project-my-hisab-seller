@@ -38,13 +38,21 @@ class ProductController extends Controller
             if(request()->ajax())
                 {
                         return datatables()->of($products)
-                                ->addColumn('action', function($data){
-                                    $button = '<button type="button" name="edit" id="'.$data['id'].'" class="show btn btn-primary btn-sm">Show</button>';
-                                    $button .= '&nbsp;&nbsp;';
-                                    $button .= '<button type="button" name="delete" id="'.$data['id'].'" class="delete btn btn-danger btn-sm">Delete</button>';
-                                    return $button;
+                                ->addColumn('add_inventory', function($data){
+                                    return '<button type="button" name="edit" id="'.$data['id'].'" class="update btn btn-primary btn-sm">Add Inventory</button>';
                                 })
-                                ->rawColumns(['action'])
+                                ->addColumn('show_inventory', function($data){
+                                    return '
+                                    <form action="'.asset('inventories/'.$data['id']).'" method="GET">
+                                    '.csrf_field().'
+                                    <button type="submit" class="btn btn-info btn-sm">Show Inventory</button>
+                                    </form>
+                                    ';
+                                })
+                                ->addColumn('delete', function($data){
+                                    return '<button type="button" name="delete" id="'.$data['id'].'" class="delete btn btn-danger btn-sm">Delete</button>';
+                                })
+                                ->rawColumns(['add_inventory','show_inventory','delete'])
                                 ->make(true);
                 }
             return view('products.all_products');

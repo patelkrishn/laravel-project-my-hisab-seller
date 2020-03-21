@@ -47,7 +47,9 @@
                   <th>Stock</th>
                   <th>Price</th>
                   <th>Total Sales</th>
-                  <th>Action</th>
+                  <th>Add Inventory</th>
+                  <th>Show Inventory</th>
+                  <th>Delete</th>
                 </tr>
                 </thead>
                 
@@ -58,7 +60,9 @@
                   <th>Stock</th>
                   <th>Price</th>
                   <th>Total Sales</th>
-                  <th>Action</th>
+                  <th>Add Inventory</th>
+                  <th>Show Inventory</th>
+                  <th>Delete</th>
                 </tr>
                 </tfoot>
           </table>
@@ -114,6 +118,41 @@
             </div>
            </div>
        </div>
+       <div id="add_inventory_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+         <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Add Inventory</h4>
+                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+               </div>
+               <div class="modal-body">
+                <span id="form_result"></span>
+                <form method="post" id="add_inventory_form" class="form-horizontal" enctype="multipart/form-data">
+                 @csrf
+
+                <div class="form-group">
+                   <label class="control-label col-md-4" >Stock Quantity : </label>
+                   <div class="col-md-12">
+                    <input type="text" name="stock_quantity" id="stock_quantity" class="form-control" />
+                   </div>
+                  </div>
+
+                  <div class="form-group">
+                   <label class="control-label col-md-4">Principle Amount : </label>
+                   <div class="col-md-12">
+                    <input type="text" name="principle_amount" id="principle_amount" class="form-control" />
+                   </div>
+                  </div>
+
+                  <br />
+                  <div class="form-group" align="center">
+                   <input type="submit" name="submit" id="add_inventory_modal_ok_button" class="btn btn-warning" value="Submit" />
+                  </div>
+                </form>
+               </div>
+            </div>
+           </div>
+       </div>
        
        <div id="confirmModal" class="modal fade" role="dialog">
            <div class="modal-dialog">
@@ -126,7 +165,7 @@
                        <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
                    </div>
                    <div class="modal-footer">
-                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">Delete</button>
                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                    </div>
                </div>
@@ -143,6 +182,7 @@
   ajax:{
    url: "{{ route('products.index') }}",
   },
+  "autoWidth": true,
   columns:[
    {
     data: 'product_name',
@@ -168,23 +208,40 @@
     orderable: false
    },
    {
-    data: 'action',
-    name: 'action',
+    data: 'add_inventory',
+    name: 'add_inventory',
+    orderable: false
+   },
+   {
+    data: 'show_inventory',
+    name: 'show_inventory',
+    orderable: false
+   },
+   {
+    data: 'delete',
+    name: 'delete',
     orderable: false
    }
   ]
  });
 
  var user_id;
+ var product_id;
 
  $(document).on('click', '.delete', function(){
   user_id = $(this).attr('id');
   $('#confirmModal').modal('show');
  });
 
+ $(document).on('click', '.update', function(){
+    product_id= $(this).attr('id');
+  $('#add_inventory_modal').modal('show');
+ });
+
  $('#ok_button').click(function(){
+    $('#ok_button').text('Deleting...');
         var settings = {
-    "url": "{{env('API_URL')}}/product/1",
+    "url": "{{env('API_URL')}}/product/"+user_id,
     "method": "DELETE",
     "timeout": 0,
     "headers": {
@@ -196,6 +253,8 @@
 
     $.ajax(settings).done(function (response) {
         $('#confirmModal').modal('hide');
+        $('#ok_button').text('Delete');
+        toastr.success(response.message)
         $('#product').DataTable().ajax.reload();
     });
  });
@@ -203,6 +262,36 @@
  $('.add').click(function(){
      $('#formModal').modal('show');
  });
+
+ $('#add_inventory_form').on('submit', function(event){
+    event.preventDefault();  
+    var stock_quantity=document.getElementById("stock_quantity").value;  
+    var principle_amount=document.getElementById("principle_amount").value; 
+    var add_inventory_Form = {
+    "url": "{{env('API_URL')}}/inventory",
+    "method": "POST",
+    "timeout": 0,
+    "headers": {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": "Bearer {{Cookie::get('access_token')}}"
+        },
+    "data": {
+                "product_id": product_id,
+                "stock_quantity": stock_quantity,
+                "principle_amount": principle_amount
+            }
+    };
+
+    $.ajax(add_inventory_Form).done(function (response) {
+        $('#add_inventory_form')[0].reset();
+        $('#add_inventory_modal').modal('hide');
+        $('#add_inventory_modal_ok_button').text('Submitting...');
+        toastr.success(response.message)
+        $('#product').DataTable().ajax.reload();
+    });
+    });
+
     $('#add_product_form').on('submit', function(event){
     event.preventDefault();
     

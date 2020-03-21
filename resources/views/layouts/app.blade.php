@@ -21,6 +21,10 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
 </head>
 @guestApi
 
@@ -163,40 +167,6 @@ to get the desired effect
                                 </li>
                             </ul>
                         </li>
-                        @if (Request::path()=='users' || Request::path()=='users/add')
-                            <li class="nav-item has-treeview  menu-open">
-                                <a href="#" class="nav-link active">
-                        @else
-                            <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
-                        @endif
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        Users
-                                        <i class="fas fa-angle-left right"></i>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/users" class="nav-link {{ Request::path()=='users' ? 'active' : '' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>All Users</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="{{asset('users/add')}}" class="nav-link {{ Request::path()=='users/add' ? 'active' : '' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Add New</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        <li class="nav-item">
-                            <a href="/booked" class="nav-link {{ Request::path()=='booked' ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>Booked Slots</p>
-                            </a>
-                        </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -242,6 +212,7 @@ to get the desired effect
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 @yield('extra-js')
 @if(session()->has('success'))
     <script>
