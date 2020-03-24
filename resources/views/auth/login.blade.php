@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('login-content')
 
 <div class="login-box" style="margin-left:550px;margin-top:100px">
     <div class="login-logo">

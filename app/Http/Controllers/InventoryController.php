@@ -84,14 +84,14 @@ class InventoryController extends Controller
                                 ->make(true);
                 }
                 // dd($product);
-            return view('inventories.all_invetories')->with(['product_id'=>$id,'product_name'=>$product['product_name']]);
+            return view('inventories.all_invetories')->with(['product_id'=>$id,'product_name'=>$product['product']['product_name']]);
         }else{
             if(request()->ajax())
             {
                     return datatables()->of($inventories)
                             ->make(true);
             }
-            return view('inventories.all_invetories')->with(['product_id'=>$id,'product_name'=>$product['product_name']]);
+            return view('inventories.all_invetories')->with(['product_id'=>$id,'product_name'=>$product['product']['product_name']]);
         }
     }
 

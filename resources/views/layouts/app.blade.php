@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Dashboard </title>
 
@@ -23,11 +24,78 @@
     <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <style>
+        #loader {
+  font-size: 10px;
+  margin: 50px auto;
+  text-indent: -9999em;
+  width: 11em;
+  height: 11em;
+  border-radius: 50%;
+  background: #0080ff;
+  background: -moz-linear-gradient(left, #0080ff 10%, rgba(0,128,255, 0) 42%);
+  background: -webkit-linear-gradient(left, #0080ff 10%, rgba(0,128,255, 0) 42%);
+  background: -o-linear-gradient(left, #0080ff 10%, rgba(0,128,255, 0) 42%);
+  background: -ms-linear-gradient(left, #0080ff 10%, rgba(0,128,255, 0) 42%);
+  background: linear-gradient(to right, #0080ff 10%, rgba(0,128,255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+#loader:before {
+  width: 50%;
+  height: 50%;
+  background: #0080ff;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+}
+#loader:after {
+  background: #ffffff;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: '';
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+    </style>
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> --}}
 </head>
 @guestApi
-
+    
+@yield('login-content')
 @guestElse
 <!--
 BODY TAG OPTIONS:
@@ -167,6 +235,28 @@ to get the desired effect
                                 </li>
                             </ul>
                         </li>
+                        @if (Request::path()=='invoices' || Request::path()=='invoices/create')
+                        <li class="nav-item has-treeview  menu-open">
+                            <a href="#" class="nav-link active">
+                    @else
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                            @endif
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    Invoices
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('invoices.create')}}" class="nav-link {{ Request::path()=='invoices/create' ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Create Invoices</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -186,10 +276,11 @@ to get the desired effect
 
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2019-2020 <a href="https://lninfosystem.com">Krishn Patel</a>.</strong>
+    <strong>Copyright &copy; 2019-2020 <a href="https://myhisab.store">My Hisab</a>.</strong>
     All rights reserved.
 </footer>
 </div>
+
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
@@ -213,6 +304,7 @@ to get the desired effect
 <!-- Toastr -->
 <script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+{{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 @yield('extra-js')
 @if(session()->has('success'))
     <script>

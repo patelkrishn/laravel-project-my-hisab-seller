@@ -71,7 +71,7 @@
                </div>
                <div class="modal-body">
                 <span id="form_result"></span>
-                <form method="PUT" id="update_inventory_form" class="form-horizontal" enctype="multipart/form-data">
+                <form id="update_inventory_form" class="form-horizontal" enctype="multipart/form-data">
                  @csrf
 
                 <div class="form-group">
@@ -201,6 +201,7 @@
     $.ajax(settings).done(function (response) {
       // console.log(response);
     $('#stock_quantity').val(response.stock_quantity);
+    // console.log(response);
     $('#principle_amount').val(response.principle_amount);
     $('#update_inventory_modal').modal('show');
     });

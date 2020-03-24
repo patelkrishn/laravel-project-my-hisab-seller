@@ -1,24 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Cookies from 'js-cookie';
 
-function Example() {
+export default class Example extends React.Component
+{
+    constructor(){
+
+        super();
+        this.state = {
+            products : []
+        };
+    }
+
+    componentDidMount(){
+        try {
+            const response = fetch('/invoices/products');
+            console.log(response.data);
+        } catch (err) {
+            // this.setState({ isLoading: false });
+            // console.error(err);
+        }
+    }
+   render(){
     return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
+        <div>
 
-                        <div className="card-body">I'm an example component!</div>
-                    </div>
-                </div>
-            </div>
         </div>
     );
+   }
 }
 
-export default Example;
 
-if (document.getElementById('example')) {
-    ReactDOM.render(<Example />, document.getElementById('example'));
+if (document.getElementById('selectProduct')) {
+    ReactDOM.render(<Example />, document.getElementById('selectProduct'));
 }
