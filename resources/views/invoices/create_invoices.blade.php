@@ -99,7 +99,7 @@
       </div>
       <!-- /.card -->
     </div>
-
+<div id="vue-component" class="container">jnvjkfdbjn</div>
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
