@@ -160,11 +160,9 @@
                 axios
                 .get('https://console.myhisab.store/api/seller/invoices?token='+this.access_token)
                 .then(response => (this.invoiceAddedProducts = response.data));
-            this.stopLoader();
             },
         },
         mounted () {
-            document.getElementById("loader").style.display = "block";
             this.refreshFunction();
             
         }

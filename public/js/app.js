@@ -2073,11 +2073,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('https://console.myhisab.store/api/seller/invoices?token=' + this.access_token).then(function (response) {
         return _this4.invoiceAddedProducts = response.data;
       });
-      this.stopLoader();
     }
   },
   mounted: function mounted() {
-    document.getElementById("loader").style.display = "block";
     this.refreshFunction();
   }
 });
