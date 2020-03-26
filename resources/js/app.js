@@ -21,7 +21,6 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('api-component',require('./components/ApiComponent.vue').default);
-Vue.component('InvoiceTable',require('./components/InvoiceTable.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
