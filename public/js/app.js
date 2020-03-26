@@ -2005,7 +2005,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['access_token'],
   data: function data() {
@@ -2039,7 +2038,6 @@ __webpack_require__.r(__webpack_exports__);
     onchangeSubmit: function onchangeSubmit(event) {
       var _this2 = this;
 
-      document.getElementById("loader").style.display = "block";
       var params = {
         'token': this.access_token,
         'product_id': this.selectedProducted.id,
@@ -2056,18 +2054,15 @@ __webpack_require__.r(__webpack_exports__);
       this.quantity = null;
       this.selectedProducted.product_price = null;
       this.refreshFunction();
-      this.stopLoader();
     },
     deleteItem: function deleteItem(delete_id) {
       var _this3 = this;
 
-      document.getElementById("loader").style.display = "block";
       axios["delete"]('https://console.myhisab.store/api/seller/invoices/' + delete_id + '?token=' + this.access_token).then(function (response) {
         return _this3.invoiceDeleteResponse = response.data;
       });
       toastr.success(this.invoiceDeleteResponse.message);
       this.refreshFunction();
-      this.stopLoader();
     },
     refreshFunction: function refreshFunction() {
       var _this4 = this;
@@ -2079,11 +2074,6 @@ __webpack_require__.r(__webpack_exports__);
         return _this4.invoiceAddedProducts = response.data;
       });
       this.stopLoader();
-    },
-    stopLoader: function stopLoader() {
-      setTimeout(function () {
-        document.getElementById("loader").style.display = "none";
-      }, 1500);
     }
   },
   mounted: function mounted() {
@@ -37734,10 +37724,6 @@ var render = function() {
           )
         ])
       ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticStyle: { display: "none" }, attrs: { id: "loader" } }, [
-      _vm._v("Loading...")
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "card" }, [

@@ -38,7 +38,6 @@
                     </div>
                 </div>
             </div>
-            <div id="loader" style="display:none">Loading...</div>
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-striped">
@@ -129,7 +128,6 @@
                 this.amount=this.selectedProducted.product_price*this.quantity;
             },
             onchangeSubmit : function(event) {
-            document.getElementById("loader").style.display = "block";
                 let params = {
                     'token':this.access_token,
                     'product_id':this.selectedProducted.id,
@@ -146,16 +144,13 @@
                 this.quantity=null;
                 this.selectedProducted.product_price=null;
             this.refreshFunction();
-            this.stopLoader();
             },
             deleteItem : function (delete_id){
-            document.getElementById("loader").style.display = "block";
                 axios
                 .delete('https://console.myhisab.store/api/seller/invoices/'+delete_id+'?token='+this.access_token)
                 .then(response => (this.invoiceDeleteResponse = response.data));
                 toastr.success(this.invoiceDeleteResponse.message);
                 this.refreshFunction();
-            this.stopLoader();
             },
             refreshFunction() {
                 axios
@@ -166,11 +161,6 @@
                 .get('https://console.myhisab.store/api/seller/invoices?token='+this.access_token)
                 .then(response => (this.invoiceAddedProducts = response.data));
             this.stopLoader();
-            },
-            stopLoader() {
-                setTimeout(() => {
-                    document.getElementById("loader").style.display = "none"
-                    },1500);
             },
         },
         mounted () {
