@@ -1990,6 +1990,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['access_token'],
   data: function data() {
@@ -2001,8 +2068,10 @@ __webpack_require__.r(__webpack_exports__);
       amount: null,
       invoiceAddedProducts: [],
       invoiceStoreResponse: null,
-      invoiceDeleteResponse: [],
-      delete_id: null
+      invoiceDeleteResponse: null,
+      delete_id: null,
+      update_id: null,
+      updateData: []
     };
   },
   methods: {
@@ -2040,30 +2109,49 @@ __webpack_require__.r(__webpack_exports__);
       this.selectedProducted.product_price = null;
       this.refreshFunction();
     },
-    deleteItem: function deleteItem(delete_id) {
+    deleteModal: function deleteModal(delete_id) {
+      this.delete_id = delete_id;
+      $('#confirmModal').modal('show');
+    },
+    deleteItem: function deleteItem() {
       var _this3 = this;
 
-      axios["delete"]('https://console.myhisab.store/api/seller/invoices/' + delete_id + '?token=' + this.access_token).then(function (response) {
+      axios["delete"]('https://console.myhisab.store/api/seller/invoices/' + this.delete_id + '?token=' + this.access_token).then(function (response) {
         return _this3.invoiceDeleteResponse = response.data;
       });
-      toastr.success(this.invoiceDeleteResponse.message);
+      toastr.success("Product succesfully deleted from invoice.");
+      $('#confirmModal').modal('hide');
       this.refreshFunction();
     },
-    refreshFunction: function refreshFunction() {
+    updateModal: function updateModal(update_id) {
       var _this4 = this;
 
+      axios.get('https://console.myhisab.store/api/seller/invoices/' + update_id + '?token=' + this.access_token).then(function (response) {
+        return _this4.updateData = response.data.invoice;
+      });
+      $('#update_invoice_modal').modal('show');
+    },
+    onChangeUpdateQuantity: function onChangeUpdateQuantity() {
+      this.updateData.total_amount = this.updateData.invoice_quantity * this.updateData.product_price;
+    },
+    updateItem: function updateItem() {
+      $('#update_invoice_modal').modal('hide');
+    },
+    refreshFunction: function refreshFunction() {
+      var _this5 = this;
+
       setTimeout(function () {
-        _this4.getRefreshedData();
+        _this5.getRefreshedData();
       }, 1000);
     },
     getRefreshedData: function getRefreshedData() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('https://console.myhisab.store/api/seller/product?token=' + this.access_token).then(function (response) {
-        return _this5.items = response.data;
+        return _this6.items = response.data;
       });
       axios.get('https://console.myhisab.store/api/seller/invoices?token=' + this.access_token).then(function (response) {
-        return _this5.invoiceAddedProducts = response.data;
+        return _this6.invoiceAddedProducts = response.data;
       });
     }
   },
@@ -37681,7 +37769,7 @@ var render = function() {
                         staticClass: "btn btn-primary btn-sm",
                         on: {
                           click: function($event) {
-                            return _vm.updateItem(item.id)
+                            return _vm.updateModal(item.id)
                           }
                         }
                       },
@@ -37696,7 +37784,7 @@ var render = function() {
                         staticClass: "btn btn-danger btn-sm",
                         on: {
                           click: function($event) {
-                            return _vm.deleteItem(item.id)
+                            return _vm.deleteModal(item.id)
                           }
                         }
                       },
@@ -37712,7 +37800,249 @@ var render = function() {
           _vm._m(1)
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "confirmModal", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteItem()
+                    }
+                  }
+                },
+                [_vm._v("Delete")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("Cancel")]
+              )
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "update_invoice_modal", role: "dialog" }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("span", { attrs: { id: "form_result" } }),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  staticClass: "form-horizontal",
+                  attrs: {
+                    id: "update_invoice_form",
+                    enctype: "multipart/form-data"
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-label col-md-4" }, [
+                      _vm._v("Product Name : ")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.updateData.product_name,
+                            expression: "updateData.product_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", disabled: "" },
+                        domProps: { value: _vm.updateData.product_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.updateData,
+                              "product_name",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-label col-md-4" }, [
+                      _vm._v("Product Price : ")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.updateData.product_price,
+                            expression: "updateData.product_price"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", disabled: "" },
+                        domProps: { value: _vm.updateData.product_price },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.updateData,
+                              "product_price",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-label col-md-4" }, [
+                      _vm._v("Quantity : ")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.updateData.invoice_quantity,
+                            expression: "updateData.invoice_quantity"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.updateData.invoice_quantity },
+                        on: {
+                          change: function($event) {
+                            return _vm.onChangeUpdateQuantity()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.updateData,
+                              "invoice_quantity",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-label col-md-4" }, [
+                      _vm._v("Total Amount : ")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.updateData.total_amount,
+                            expression: "updateData.total_amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.updateData.total_amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.updateData,
+                              "total_amount",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group", attrs: { align: "center" } },
+                    [
+                      _c("input", {
+                        attrs: {
+                          type: "hidden",
+                          name: "invoice_id",
+                          id: "invoice_id",
+                          value: "null"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-warning btn-md",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.updateItem()
+                            }
+                          }
+                        },
+                        [_vm._v("Update")]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -37754,6 +38084,50 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Delete")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h2", { staticClass: "modal-title" }, [_vm._v("Confirmation")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("h4", { staticStyle: { margin: "0" }, attrs: { align: "center" } }, [
+        _vm._v("Are you sure you want to remove this data?")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Update Product")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
     ])
   }
 ]

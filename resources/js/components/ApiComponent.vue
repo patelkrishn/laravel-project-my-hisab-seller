@@ -61,8 +61,8 @@
                                     <td>{{item.invoice_quantity}}</td>
                                     <td>{{item.product_price}}</td>
                                     <td>{{item.total_amount}}</td>
-                                    <td><button class="btn btn-primary btn-sm" v-on:click="updateItem(item.id)" >Update Item</button></td>
-                                    <td><button class="btn btn-danger btn-sm" v-on:click="deleteItem(item.id)" >Delete Item</button></td>
+                                    <td><button class="btn btn-primary btn-sm" v-on:click="updateModal(item.id)" >Update Item</button></td>
+                                    <td><button class="btn btn-danger btn-sm" v-on:click="deleteModal(item.id)" >Delete Item</button></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -76,6 +76,73 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+            </div>
+            <div id="confirmModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h2 class="modal-title">Confirmation</h2>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
+                        </div>
+                        <div class="modal-footer">
+                        <button v-on:click="deleteItem()" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="update_invoice_modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Product</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <span id="form_result"></span>
+                        <form id="update_invoice_form" class="form-horizontal" enctype="multipart/form-data">
+                        
+
+                        <div class="form-group">
+                        <label class="control-label col-md-4" >Product Name : </label>
+                        <div class="col-md-12">
+                            <input type="text" v-model="updateData.product_name" class="form-control" disabled/>
+                        </div>
+                        </div>
+
+                        <div class="form-group">
+                        <label class="control-label col-md-4">Product Price : </label>
+                        <div class="col-md-12">
+                            <input type="text" v-model="updateData.product_price" class="form-control" disabled/>
+                        </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Quantity : </label>
+                            <div class="col-md-12">
+                            <input type="text" class="form-control" v-model="updateData.invoice_quantity" @change="onChangeUpdateQuantity()"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Total Amount : </label>
+                            <div class="col-md-12">
+                            <input type="text" v-model="updateData.total_amount" class="form-control" />
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="form-group" align="center">
+                            <input type="hidden" name="invoice_id" id="invoice_id" value="null">
+                        <button type="button" class="btn btn-warning btn-md" v-on:click="updateItem()">Update</button>
+                        </div>
+                        </form>
+                    </div>
+                    </div>
                 </div>
             </div>
             </div>
@@ -94,8 +161,10 @@
                 amount : null,
                 invoiceAddedProducts : [],
                 invoiceStoreResponse : null,
-                invoiceDeleteResponse :[],
-                delete_id : null
+                invoiceDeleteResponse :null,
+                delete_id : null,
+                update_id : null,
+                updateData :[],
             }
         },
         methods:{
@@ -131,12 +200,29 @@
                 this.selectedProducted.product_price=null;
             this.refreshFunction();
             },
-            deleteItem : function (delete_id){
+            deleteModal : function(delete_id) {
+                this.delete_id= delete_id;
+                $('#confirmModal').modal('show');
+            },
+            deleteItem : function (){
                 axios
-                .delete('https://console.myhisab.store/api/seller/invoices/'+delete_id+'?token='+this.access_token)
+                .delete('https://console.myhisab.store/api/seller/invoices/'+this.delete_id+'?token='+this.access_token)
                 .then(response => (this.invoiceDeleteResponse = response.data));
-                toastr.success(this.invoiceDeleteResponse.message);
+                toastr.success("Product succesfully deleted from invoice.");
+                $('#confirmModal').modal('hide');
                 this.refreshFunction();
+            },
+            updateModal :function(update_id){
+                axios
+                .get('https://console.myhisab.store/api/seller/invoices/'+update_id+'?token='+this.access_token)
+                .then(response => (this.updateData = response.data.invoice));
+                $('#update_invoice_modal').modal('show');
+            },
+            onChangeUpdateQuantity() {
+                this.updateData.total_amount=this.updateData.invoice_quantity*this.updateData.product_price;
+            },
+            updateItem :function(){
+                $('#update_invoice_modal').modal('hide');
             },
             refreshFunction() {
                  setTimeout(() => {
