@@ -61,7 +61,7 @@
                                     <td>{{item.invoice_quantity}}</td>
                                     <td>{{item.product_price}}</td>
                                     <td>{{item.total_amount}}</td>
-                                    <td><button class="btn btn-primary btn-sm">Update Item</button></td>
+                                    <td><button class="btn btn-primary btn-sm" v-on:click="updateItem(item.id)" >Update Item</button></td>
                                     <td><button class="btn btn-danger btn-sm" v-on:click="deleteItem(item.id)" >Delete Item</button></td>
                             </tr>
                         </tbody>
