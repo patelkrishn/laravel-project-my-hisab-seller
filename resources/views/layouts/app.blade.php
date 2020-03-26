@@ -26,11 +26,11 @@
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
     <style>
         #loader {
-  font-size: 10px;
+  font-size: 7px;
   margin: 50px auto;
   text-indent: -9999em;
-  width: 11em;
-  height: 11em;
+  width: 4em;
+  height: 4em;
   border-radius: 50%;
   background: #0080ff;
   background: -moz-linear-gradient(left, #0080ff 10%, rgba(0,128,255, 0) 42%);
@@ -57,8 +57,8 @@
 }
 #loader:after {
   background: #ffffff;
-  width: 75%;
-  height: 75%;
+  width: 50%;
+  height: 50%;
   border-radius: 50%;
   content: '';
   margin: auto;
@@ -264,7 +264,9 @@ to get the desired effect
         <!-- /.sidebar -->
     </aside>
     @endGuestApi
-@yield('content')
+<div id="app">
+    @yield('content')
+</div>
 <!-- Main content -->
 </div>
 <!-- /.content-wrapper -->

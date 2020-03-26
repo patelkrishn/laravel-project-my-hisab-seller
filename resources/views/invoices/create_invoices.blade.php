@@ -24,10 +24,11 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+    <api-component access_token="{{Cookie::get('access_token')}}"></api-component>
     <div class="container">
-        <form method="POST" action="{{route('invoices.store')}}" id="create_invoice" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
+        {{-- <form method="POST" action="{{route('invoices.store')}}" id="create_invoice" enctype="multipart/form-data">
+            @csrf --}}
+            {{-- <div class="row">
                 <div class="col-md-6">
                     <label for="selectProduct">Select Product</label>
                     <div class="form-group">
@@ -63,14 +64,14 @@
                         <input type="submit" class="btn btn-primary btn-md form-control" id="create_invoice_submit" value="Submit" name="submit">
                     </div>
                 </div>
-            </div>
-        </form>
-        <div class="card">
+            </div> --}}
+        {{-- </form> --}}
+        {{-- <div class="card"> --}}
             {{-- <div class="card-header">
               <h3 class="card-title">Your Inventory Details</h3>
             </div> --}}
             <!-- /.card-header -->
-            <div class="card-body">
+            {{-- <div class="card-body">
               <table id="invoice" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -94,12 +95,11 @@
                 </tr>
                 </tfoot>
           </table>
-        </div>
+        </div> --}}
         <!-- /.card-body -->
-      </div>
+      {{-- </div> --}}
       <!-- /.card -->
     </div>
-<div id="vue-component" class="container">jnvjkfdbjn</div>
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -168,10 +168,11 @@
             </div>
            </div>
        </div>
+       <script src="{{ asset('js/app.js') }}"></script>
 @endsection 
 
 @section('extra-js')
-    <script>
+    {{-- <script>
         $('#invoice').DataTable({
             processing: true,
             serverSide: true,
@@ -333,5 +334,5 @@
                 $('#invoice').DataTable().ajax.reload();
             });
         });
-    </script>
+    </script> --}}
 @endsection

@@ -52,7 +52,7 @@ class InvoiceController extends Controller
             
         ]);
         $invoices=json_decode($invoices_response,true);
-        // dd($invoices);
+        // dd($products);
         if($invoices!= NULL)
         {
             // dd($invoices);
