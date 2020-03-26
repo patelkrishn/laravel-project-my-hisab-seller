@@ -1990,21 +1990,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['access_token'],
   data: function data() {
@@ -2067,16 +2052,23 @@ __webpack_require__.r(__webpack_exports__);
     refreshFunction: function refreshFunction() {
       var _this4 = this;
 
+      setTimeout(function () {
+        _this4.getRefreshedData();
+      }, 1000);
+    },
+    getRefreshedData: function getRefreshedData() {
+      var _this5 = this;
+
       axios.get('https://console.myhisab.store/api/seller/product?token=' + this.access_token).then(function (response) {
-        return _this4.items = response.data;
+        return _this5.items = response.data;
       });
       axios.get('https://console.myhisab.store/api/seller/invoices?token=' + this.access_token).then(function (response) {
-        return _this4.invoiceAddedProducts = response.data;
+        return _this5.invoiceAddedProducts = response.data;
       });
     }
   },
   mounted: function mounted() {
-    this.refreshFunction();
+    this.getRefreshedData();
   }
 });
 

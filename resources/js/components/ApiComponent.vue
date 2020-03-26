@@ -64,21 +64,6 @@
                                     <td><button class="btn btn-primary btn-sm">Update Item</button></td>
                                     <td><button class="btn btn-danger btn-sm" v-on:click="deleteItem(item.id)" >Delete Item</button></td>
                             </tr>
-                            <!-- <div v-if="!invoiceAddedProducts.length">
-                                <tr>
-                                    <td style="text-align:center" colspan="6">No data available!</td>
-                                </tr>
-                            </div>
-                            <div v-else>
-                                <tr v-for="item in invoiceAddedProducts">
-                                    <td>{{item.product_name}}</td>
-                                    <td>{{item.product_price}}</td>
-                                    <td>{{item.quantity}}</td>
-                                    <td>{{item.amount}}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </div> -->
                         </tbody>
                         <tfoot>
                             <tr>
@@ -97,6 +82,7 @@
 </template>
 <script>
     export default {
+        
         props: ['access_token'],
  
         data() {
@@ -153,6 +139,11 @@
                 this.refreshFunction();
             },
             refreshFunction() {
+                 setTimeout(() => {
+                  this.getRefreshedData()
+                },1000)
+            },
+            getRefreshedData() {
                 axios
                 .get('https://console.myhisab.store/api/seller/product?token='+this.access_token)
                 .then(response => (this.items = response.data))
@@ -160,10 +151,10 @@
                 axios
                 .get('https://console.myhisab.store/api/seller/invoices?token='+this.access_token)
                 .then(response => (this.invoiceAddedProducts = response.data));
-            },
+            }
         },
         mounted () {
-            this.refreshFunction();
+            this.getRefreshedData();
             
         }
     }
