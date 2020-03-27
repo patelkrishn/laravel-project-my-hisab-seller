@@ -227,7 +227,7 @@
             refreshFunction() {
                  setTimeout(() => {
                   this.getRefreshedData()
-                },1000)
+                },1000);
             },
             getRefreshedData() {
                 axios
