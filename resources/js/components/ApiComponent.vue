@@ -1,22 +1,26 @@
 <template>
 <div class="container">
-    <div class="row">
+        <div class="row">
                 <div class="col-md-6">
                     <label for="selectProduct">Select Product</label>
                     <div class="form-group">
-                        <select class="form-control" v-model="selected" @change="onChange()">
-                            <option selected>Select...</option>
-                                <option v-for="item in items"  v-bind:value="item.id">
+                        <!-- <select class="form-control" v-model="selectedProductId" >
+                            <option value="" disabled :selected="true">Select...</option>
+                                <option v-for="item in loadedProducts"  v-bind:value="item.id">
                                     {{ item.product_name}}
                                 </option>
                            
+                        </select> -->
+                        <select class="form-control" v-model="selectedProductId" @change="onChangeProduct()">
+                            <option value="" disabled selected>Select...</option>
+                                <option v-for="item in loadedProducts" v-bind:value="item.id" >{{ item.product_name}}</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <label>Product Price</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" v-model="selectedProducted.product_price" disabled>
+                        <input type="text" class="form-control" v-model="selectedProduct.product_price" disabled>
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -52,17 +56,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="invoiceAddedProducts.length == 0">
+                            <tr v-if="addedInvoices.length == 0">
                                 <td colspan="6" style="text-align:center">No data available!</td>
                                 <!-- No data available! -->
                             </tr>
-                            <tr v-for="item in invoiceAddedProducts">
+                            <tr v-for="item in addedInvoices">
                                     <td>{{item.product_name}}</td>
                                     <td>{{item.invoice_quantity}}</td>
                                     <td>{{item.product_price}}</td>
                                     <td>{{item.total_amount}}</td>
                                     <td><button class="btn btn-primary btn-sm" v-on:click="updateModal(item.id)" >Update Item</button></td>
-                                    <td><button class="btn btn-danger btn-sm" v-on:click="deleteModal(item.id)" >Delete Item</button></td>
+                                    <td><button class="btn btn-danger btn-sm" v-on:click="deleteModal(item)" >Delete Item</button></td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -154,67 +158,67 @@
  
         data() {
             return {
-                selected: null,
-                items: [],
-                selectedProducted :[],
+                // api_url : 'https://console.myhisab.store/api/seller',
+                api_url : 'http://localhost:5758/api/seller',
+                loadedProducts : [],
+                addedInvoices:[],
+                selectedProductId: '',
+
+                selectedProduct :[],
                 quantity : null,
                 amount : null,
-                invoiceAddedProducts : [],
-                invoiceStoreResponse : null,
-                invoiceDeleteResponse :null,
-                delete_id : null,
+                delete_data : null,
                 update_id : null,
                 updateData :[],
             }
         },
         methods:{
-             onChange() {
-                this.items.forEach((value, index) => {
-                    if (value.id == this.selected) {
-                        this.selectedProducted= value;
+             onChangeProduct() {
+                // this.quantity=1;
+
+                this.loadedProducts.forEach((value, index) => {
+                    if (value.id == this.selectedProductId) {
+                        this.selectedProduct= value;
                         // console.log(value);
                     }
                 });
                 this.quantity=1;
-                this.amount=this.selectedProducted.product_price*this.quantity;
-                // console.log(this.selectedProducted);
+                this.amount=this.selectedProduct.product_price*this.quantity;
+                // console.log(this.selectedProduct);
             },
             onChangeQuantity() {
-                this.amount=this.selectedProducted.product_price*this.quantity;
+                this.amount=this.selectedProduct.product_price*this.quantity;
             },
             onchangeSubmit : function(event) {
                 let params = {
-                    'token':this.access_token,
-                    'product_id':this.selectedProducted.id,
-                    'product_price':this.selectedProducted.product_price,
+                    'product_name':this.selectedProduct.product_name,
+                    'product_id':this.selectedProduct.id,
+                    'product_price':this.selectedProduct.product_price,
                     'invoice_quantity':this.quantity,
                     'total_amount':this.amount,
                 }
-                axios
-                .post('https://console.myhisab.store/api/seller/invoices',params)
-                .then(response => (this.invoiceStoreResponse=response.status));
-                    toastr.success("Product added to invoice succesfully.");
-                // console.log(this.invoiceAddedProducts);
+                this.addedInvoices.push(params);
+                toastr.success("Product added to invoice successfully.");
                 this.amount=null;
                 this.quantity=null;
-                this.selectedProducted.product_price=null;
-            this.refreshFunction();
+                // this.selectedProduct=null;
+                this.selectedId=null;
             },
-            deleteModal : function(delete_id) {
-                this.delete_id= delete_id;
+            deleteModal(item) {
+                this.delete_data= item;
+                // console.log(this.delete_id);
                 $('#confirmModal').modal('show');
             },
             deleteItem : function (){
-                axios
-                .delete('https://console.myhisab.store/api/seller/invoices/'+this.delete_id+'?token='+this.access_token)
-                .then(response => (this.invoiceDeleteResponse = response.data));
+                const delete_data_index=this.addedInvoices.indexOf(this.delete_data);
+                // console.log(delete_data_index);
+                this.addedInvoices.splice(delete_data_index,1);
                 toastr.success("Product succesfully deleted from invoice.");
                 $('#confirmModal').modal('hide');
-                this.refreshFunction();
             },
             updateModal :function(update_id){
                 axios
-                .get('https://console.myhisab.store/api/seller/invoices/'+update_id+'?token='+this.access_token)
+                .get(this.api_url+'/invoices/'+update_id+'?token='+this.access_token)
                 .then(response => (this.updateData = response.data.invoice));
                 $('#update_invoice_modal').modal('show');
             },
@@ -223,25 +227,17 @@
             },
             updateItem :function(){
                 $('#update_invoice_modal').modal('hide');
-            },
-            refreshFunction() {
-                 setTimeout(() => {
-                  this.getRefreshedData()
-                },1000);
-            },
-            getRefreshedData() {
-                axios
-                .get('https://console.myhisab.store/api/seller/product?token='+this.access_token)
-                .then(response => (this.items = response.data))
-
-                axios
-                .get('https://console.myhisab.store/api/seller/invoices?token='+this.access_token)
-                .then(response => (this.invoiceAddedProducts = response.data));
             }
         },
         mounted () {
-            this.getRefreshedData();
-            
+            axios
+                .get(this.api_url+'/product?token='+this.access_token)
+                .then(response => (this.loadedProducts = response.data))
+
+                // axios
+                // .get(this.api_url+'/invoices?token='+this.access_token)
+                // .then(response => (this.addedInvoices.push(response.data)));
+                // console.log(this.addedInvoices);
         }
     }
 </script>

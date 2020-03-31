@@ -2057,77 +2057,75 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['access_token'],
   data: function data() {
     return {
-      selected: null,
-      items: [],
-      selectedProducted: [],
+      // api_url : 'https://console.myhisab.store/api/seller',
+      api_url: 'http://localhost:5758/api/seller',
+      loadedProducts: [],
+      addedInvoices: [],
+      selectedProductId: '',
+      selectedProduct: [],
       quantity: null,
       amount: null,
-      invoiceAddedProducts: [],
-      invoiceStoreResponse: null,
-      invoiceDeleteResponse: null,
-      delete_id: null,
+      delete_data: null,
       update_id: null,
       updateData: []
     };
   },
   methods: {
-    onChange: function onChange() {
+    onChangeProduct: function onChangeProduct() {
       var _this = this;
 
-      this.items.forEach(function (value, index) {
-        if (value.id == _this.selected) {
-          _this.selectedProducted = value; // console.log(value);
+      // this.quantity=1;
+      this.loadedProducts.forEach(function (value, index) {
+        if (value.id == _this.selectedProductId) {
+          _this.selectedProduct = value; // console.log(value);
         }
       });
       this.quantity = 1;
-      this.amount = this.selectedProducted.product_price * this.quantity; // console.log(this.selectedProducted);
+      this.amount = this.selectedProduct.product_price * this.quantity; // console.log(this.selectedProduct);
     },
     onChangeQuantity: function onChangeQuantity() {
-      this.amount = this.selectedProducted.product_price * this.quantity;
+      this.amount = this.selectedProduct.product_price * this.quantity;
     },
     onchangeSubmit: function onchangeSubmit(event) {
-      var _this2 = this;
-
       var params = {
-        'token': this.access_token,
-        'product_id': this.selectedProducted.id,
-        'product_price': this.selectedProducted.product_price,
+        'product_name': this.selectedProduct.product_name,
+        'product_id': this.selectedProduct.id,
+        'product_price': this.selectedProduct.product_price,
         'invoice_quantity': this.quantity,
         'total_amount': this.amount
       };
-      axios.post('https://console.myhisab.store/api/seller/invoices', params).then(function (response) {
-        return _this2.invoiceStoreResponse = response.status;
-      });
-      toastr.success("Product added to invoice succesfully."); // console.log(this.invoiceAddedProducts);
-
+      this.addedInvoices.push(params);
+      toastr.success("Product added to invoice successfully.");
       this.amount = null;
-      this.quantity = null;
-      this.selectedProducted.product_price = null;
-      this.refreshFunction();
+      this.quantity = null; // this.selectedProduct=null;
+
+      this.selectedId = null;
     },
-    deleteModal: function deleteModal(delete_id) {
-      this.delete_id = delete_id;
+    deleteModal: function deleteModal(item) {
+      this.delete_data = item; // console.log(this.delete_id);
+
       $('#confirmModal').modal('show');
     },
     deleteItem: function deleteItem() {
-      var _this3 = this;
+      var delete_data_index = this.addedInvoices.indexOf(this.delete_data); // console.log(delete_data_index);
 
-      axios["delete"]('https://console.myhisab.store/api/seller/invoices/' + this.delete_id + '?token=' + this.access_token).then(function (response) {
-        return _this3.invoiceDeleteResponse = response.data;
-      });
+      this.addedInvoices.splice(delete_data_index, 1);
       toastr.success("Product succesfully deleted from invoice.");
       $('#confirmModal').modal('hide');
-      this.refreshFunction();
     },
     updateModal: function updateModal(update_id) {
-      var _this4 = this;
+      var _this2 = this;
 
-      axios.get('https://console.myhisab.store/api/seller/invoices/' + update_id + '?token=' + this.access_token).then(function (response) {
-        return _this4.updateData = response.data.invoice;
+      axios.get(this.api_url + '/invoices/' + update_id + '?token=' + this.access_token).then(function (response) {
+        return _this2.updateData = response.data.invoice;
       });
       $('#update_invoice_modal').modal('show');
     },
@@ -2136,27 +2134,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     updateItem: function updateItem() {
       $('#update_invoice_modal').modal('hide');
-    },
-    refreshFunction: function refreshFunction() {
-      var _this5 = this;
-
-      setTimeout(function () {
-        _this5.getRefreshedData();
-      }, 1000);
-    },
-    getRefreshedData: function getRefreshedData() {
-      var _this6 = this;
-
-      axios.get('https://console.myhisab.store/api/seller/product?token=' + this.access_token).then(function (response) {
-        return _this6.items = response.data;
-      });
-      axios.get('https://console.myhisab.store/api/seller/invoices?token=' + this.access_token).then(function (response) {
-        return _this6.invoiceAddedProducts = response.data;
-      });
     }
   },
   mounted: function mounted() {
-    this.getRefreshedData();
+    var _this3 = this;
+
+    axios.get(this.api_url + '/product?token=' + this.access_token).then(function (response) {
+      return _this3.loadedProducts = response.data;
+    }); // axios
+    // .get(this.api_url+'/invoices?token='+this.access_token)
+    // .then(response => (this.addedInvoices.push(response.data)));
+    // console.log(this.addedInvoices);
   }
 });
 
@@ -37580,8 +37568,8 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.selected,
-                  expression: "selected"
+                  value: _vm.selectedProductId,
+                  expression: "selectedProductId"
                 }
               ],
               staticClass: "form-control",
@@ -37596,26 +37584,26 @@ var render = function() {
                         var val = "_value" in o ? o._value : o.value
                         return val
                       })
-                    _vm.selected = $event.target.multiple
+                    _vm.selectedProductId = $event.target.multiple
                       ? $$selectedVal
                       : $$selectedVal[0]
                   },
                   function($event) {
-                    return _vm.onChange()
+                    return _vm.onChangeProduct()
                   }
                 ]
               }
             },
             [
-              _c("option", { attrs: { selected: "" } }, [_vm._v("Select...")]),
+              _c(
+                "option",
+                { attrs: { value: "", disabled: "", selected: "" } },
+                [_vm._v("Select...")]
+              ),
               _vm._v(" "),
-              _vm._l(_vm.items, function(item) {
+              _vm._l(_vm.loadedProducts, function(item) {
                 return _c("option", { domProps: { value: item.id } }, [
-                  _vm._v(
-                    "\r\n                                    " +
-                      _vm._s(item.product_name) +
-                      "\r\n                                "
-                  )
+                  _vm._v(_vm._s(item.product_name))
                 ])
               })
             ],
@@ -37633,20 +37621,20 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.selectedProducted.product_price,
-                expression: "selectedProducted.product_price"
+                value: _vm.selectedProduct.product_price,
+                expression: "selectedProduct.product_price"
               }
             ],
             staticClass: "form-control",
             attrs: { type: "text", disabled: "" },
-            domProps: { value: _vm.selectedProducted.product_price },
+            domProps: { value: _vm.selectedProduct.product_price },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
                 _vm.$set(
-                  _vm.selectedProducted,
+                  _vm.selectedProduct,
                   "product_price",
                   $event.target.value
                 )
@@ -37739,7 +37727,7 @@ var render = function() {
           _c(
             "tbody",
             [
-              _vm.invoiceAddedProducts.length == 0
+              _vm.addedInvoices.length == 0
                 ? _c("tr", [
                     _c(
                       "td",
@@ -37752,7 +37740,7 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm._l(_vm.invoiceAddedProducts, function(item) {
+              _vm._l(_vm.addedInvoices, function(item) {
                 return _c("tr", [
                   _c("td", [_vm._v(_vm._s(item.product_name))]),
                   _vm._v(" "),
@@ -37784,7 +37772,7 @@ var render = function() {
                         staticClass: "btn btn-danger btn-sm",
                         on: {
                           click: function($event) {
-                            return _vm.deleteModal(item.id)
+                            return _vm.deleteModal(item)
                           }
                         }
                       },
@@ -50429,15 +50417,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**************************************************!*\
   !*** ./resources/js/components/ApiComponent.vue ***!
   \**************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ApiComponent_vue_vue_type_template_id_6c5c3a6e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ApiComponent.vue?vue&type=template&id=6c5c3a6e& */ "./resources/js/components/ApiComponent.vue?vue&type=template&id=6c5c3a6e&");
 /* harmony import */ var _ApiComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ApiComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ApiComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _ApiComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _ApiComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -50467,7 +50454,7 @@ component.options.__file = "resources/js/components/ApiComponent.vue"
 /*!***************************************************************************!*\
   !*** ./resources/js/components/ApiComponent.vue?vue&type=script&lang=js& ***!
   \***************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
