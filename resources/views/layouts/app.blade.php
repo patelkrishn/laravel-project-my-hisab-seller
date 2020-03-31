@@ -264,9 +264,7 @@ to get the desired effect
         <!-- /.sidebar -->
     </aside>
     @endGuestApi
-<div id="app">
     @yield('content')
-</div>
 <!-- Main content -->
 </div>
 <!-- /.content-wrapper -->
