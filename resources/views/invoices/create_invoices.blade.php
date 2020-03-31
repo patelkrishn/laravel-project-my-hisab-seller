@@ -24,7 +24,10 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+    <div id="app">
     <api-component access_token="{{Cookie::get('access_token')}}"></api-component>
+    </div>
+  </div>
     
     <script src="{{ asset('js/app.js') }}"></script>
 @endsection 
