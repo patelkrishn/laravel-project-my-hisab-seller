@@ -22,7 +22,7 @@
             },
             "require": {
                 "php": ">=5.5.9",
-                "symfony/http-foundation": "~2.7|~3.0|~4.0|~5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/http-kernel": "~2.7|~3.0|~4.0|~5.0"
             },
             "require-dev": {
@@ -405,7 +405,7 @@
                 "illuminate/contracts": "^5.5|^6.0|^7.0|^8.0",
                 "illuminate/support": "^5.5|^6.0|^7.0|^8.0",
                 "php": ">=7",
-                "symfony/http-foundation": "^3.3|^4.0|^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/http-kernel": "^3.3|^4.0|^5.0"
             },
             "require-dev": {
@@ -851,7 +851,7 @@
                 "symfony/console": "^5.0",
                 "symfony/error-handler": "^5.0",
                 "symfony/finder": "^5.0",
-                "symfony/http-foundation": "^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/http-kernel": "^5.0",
                 "symfony/mime": "^5.0",
                 "symfony/process": "^5.0",
@@ -2326,7 +2326,7 @@
                 "symfony/config": "^4.4|^5.0",
                 "symfony/dependency-injection": "^4.4|^5.0",
                 "symfony/expression-language": "^4.4|^5.0",
-                "symfony/http-foundation": "^4.4|^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/service-contracts": "^1.1|^2",
                 "symfony/stopwatch": "^4.4|^5.0"
             },
@@ -2547,7 +2547,7 @@
                 "psr/log": "~1.0",
                 "symfony/error-handler": "^4.4|^5.0",
                 "symfony/event-dispatcher": "^5.0",
-                "symfony/http-foundation": "^4.4|^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-php73": "^1.9"
             },
@@ -3114,7 +3114,7 @@
                 "symfony/config": "^5.0",
                 "symfony/dependency-injection": "^4.4|^5.0",
                 "symfony/expression-language": "^4.4|^5.0",
-                "symfony/http-foundation": "^4.4|^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/yaml": "^4.4|^5.0"
             },
             "suggest": {
@@ -3736,7 +3736,7 @@
                 "facade/ignition-contracts": "~1.0",
                 "illuminate/pipeline": "^5.5|^6.0|^7.0",
                 "php": "^7.1",
-                "symfony/http-foundation": "^3.3|^4.1|^5.0",
+                "symfony/http-foundation": "^5.0.7",
                 "symfony/var-dumper": "^3.4|^4.0|^5.0"
             },
             "require-dev": {
