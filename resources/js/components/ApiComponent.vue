@@ -168,8 +168,6 @@
                 quantity : null,
                 amount : null,
                 delete_data : null,
-                update_id : null,
-                updateData :[],
             }
         },
         methods:{

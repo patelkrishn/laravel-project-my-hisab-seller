@@ -2073,9 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedProduct: [],
       quantity: null,
       amount: null,
-      delete_data: null,
-      update_id: null,
-      updateData: []
+      delete_data: null
     };
   },
   methods: {
