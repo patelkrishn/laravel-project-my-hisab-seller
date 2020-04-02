@@ -2062,11 +2062,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['access_token'],
+  props: ['access_token', 'api_url'],
   data: function data() {
     return {
-      // api_url : 'https://console.myhisab.store/api/seller',
-      api_url: 'http://localhost:5758/api/seller',
       loadedProducts: [],
       addedInvoices: [],
       selectedProductId: '',
@@ -2141,10 +2139,7 @@ __webpack_require__.r(__webpack_exports__);
 
     axios.get(this.api_url + '/product?token=' + this.access_token).then(function (response) {
       return _this3.loadedProducts = response.data;
-    }); // axios
-    // .get(this.api_url+'/invoices?token='+this.access_token)
-    // .then(response => (this.addedInvoices.push(response.data)));
-    // console.log(this.addedInvoices);
+    });
   }
 });
 

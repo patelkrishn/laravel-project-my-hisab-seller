@@ -25,7 +25,7 @@
       </div><!-- /.container-fluid -->
     </div>
     <div id="app">
-    <api-component access_token="{{Cookie::get('access_token')}}"></api-component>
+    <api-component access_token="{{Cookie::get('access_token')}}" api_url="{{env('API_URL')}}"></api-component>
     </div>
   </div>
     

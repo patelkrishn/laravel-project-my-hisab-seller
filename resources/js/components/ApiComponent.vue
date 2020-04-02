@@ -154,12 +154,10 @@
 <script>
     export default {
         
-        props: ['access_token'],
+        props: ['access_token','api_url'],
  
         data() {
             return {
-                // api_url : 'https://console.myhisab.store/api/seller',
-                api_url : 'http://localhost:5758/api/seller',
                 loadedProducts : [],
                 addedInvoices:[],
                 selectedProductId: '',
@@ -233,11 +231,6 @@
             axios
                 .get(this.api_url+'/product?token='+this.access_token)
                 .then(response => (this.loadedProducts = response.data))
-
-                // axios
-                // .get(this.api_url+'/invoices?token='+this.access_token)
-                // .then(response => (this.addedInvoices.push(response.data)));
-                // console.log(this.addedInvoices);
         }
     }
 </script>
