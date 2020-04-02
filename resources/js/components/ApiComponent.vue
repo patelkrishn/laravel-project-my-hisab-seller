@@ -168,6 +168,8 @@
                 quantity : null,
                 amount : null,
                 delete_data : null,
+                update_id : null,
+                updateData :[],
             }
         },
         methods:{
@@ -197,8 +199,8 @@
                 }
                 this.addedInvoices.push(params);
                 toastr.success("Product added to invoice successfully.");
-                this.amount=null;
-                this.quantity=null;
+                // this.amount=null;
+                // this.quantity=null;
                 // this.selectedProduct=null;
                 this.selectedId=null;
             },
