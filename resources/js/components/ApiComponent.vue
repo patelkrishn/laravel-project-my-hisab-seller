@@ -60,7 +60,7 @@
                                 <td colspan="6" style="text-align:center">No data available!</td>
                                 <!-- No data available! -->
                             </tr>
-                            <tr v-for="item in addedInvoices">
+                            <tr v-for="item in addedInvoices" :key="item.id">
                                     <td>{{item.product_name}}</td>
                                     <td>{{item.invoice_quantity}}</td>
                                     <td>{{item.product_price}}</td>

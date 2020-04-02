@@ -37736,7 +37736,7 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _vm._l(_vm.addedInvoices, function(item) {
-                return _c("tr", [
+                return _c("tr", { key: item.id }, [
                   _c("td", [_vm._v(_vm._s(item.product_name))]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.invoice_quantity))]),
